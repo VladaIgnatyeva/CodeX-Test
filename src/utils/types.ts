@@ -29,3 +29,5 @@ export interface IDrawingField {
     rectangle?: IRectangle[],
     bucketFill?: IBucketFill[]
 }
+
+export type CanvasType = Array<Array<string>>;

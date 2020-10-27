@@ -1,13 +1,13 @@
-.drawingField-container{
+.drawingField-container {
     display: flex;
     flex-direction: column;
 }
 
-.row{
+.row {
     display: inline-block;
 }
 
-.drawingField-container span{
+.drawingField-container span {
     width: 15px;
   /*  height: 20px;*/
     font-size: 18px;

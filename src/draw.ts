@@ -1,6 +1,6 @@
-import { ICanvas, ILine, IRectangle, IBucketFill } from './utils/types';
+import { ICanvas, ILine, IRectangle, IBucketFill, CanvasType } from './utils/types';
 
-const generateCanvas = (canvas: ICanvas): [] => {
+const generateCanvas = (canvas: ICanvas): CanvasType => {
     const place = [] as any;
     for (var i = 0; i < canvas.h + 2; i++) {
         place[i] = [];
@@ -16,8 +16,8 @@ const generateCanvas = (canvas: ICanvas): [] => {
     return place;
 }
 
-const drawLine = (canvas: [], line: ILine): [] => {
-    const canvasLocal = canvas as any;
+const drawLine = (canvas: CanvasType, line: ILine): CanvasType => {
+    const canvasLocal = canvas;
     if (line.x1 === line.x2) {
         for (let i = line.y1; i < line.y2 + 1; i++) {
             canvasLocal[i][line.x1] = 'x';
@@ -30,7 +30,7 @@ const drawLine = (canvas: [], line: ILine): [] => {
     return canvasLocal;
 }
 
-const drawRectangle = (canvas: [], rectangle: IRectangle): [] => {
+const drawRectangle = (canvas: CanvasType, rectangle: IRectangle): CanvasType => {
     const lineTop = {
         x1: rectangle.x1,
         y1: rectangle.y1,
@@ -68,8 +68,8 @@ const drawRectangle = (canvas: [], rectangle: IRectangle): [] => {
     return canvasLocal;
 }
 
-const fill = (canvas: [], y: number, x: number, color: string): [] => {
-    let canvasLocal = canvas as any;
+const fill = (canvas: CanvasType, y: number, x: number, color: string): CanvasType => {
+    let canvasLocal = canvas;
     const colorLocal = canvasLocal[x][y];
     if (colorLocal !== color && colorLocal !== 'x' && colorLocal !== '-' && colorLocal !== '|') {
         canvasLocal[x][y] = color;
@@ -81,7 +81,7 @@ const fill = (canvas: [], y: number, x: number, color: string): [] => {
     return canvasLocal;
 }
 
-export const draw = (input: string[]): [] => {
+export const draw = (input: string[]): CanvasType => {
 
     const drawingField = {} as ICanvas;
     const lines = [] as Array<ILine>;
@@ -144,5 +144,6 @@ export const draw = (input: string[]): [] => {
 
         return canvasLocal;
     }
-    return [];
+
+    return [[]];
 }

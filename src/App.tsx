@@ -1,26 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, } from 'react';
 import { FormControl, Button } from 'react-bootstrap'
 import './App.css';
 import { DrawingField } from './Components/DrawingField';
-import { ICanvas, ILine, IRectangle, IBucketFill } from './utils/types';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { CanvasType } from './utils/types';
 import { draw } from './draw'
 
 
 const App = () => {
 
   const [strInput, setStrInput] = useState('');
-  const [canvas, setCanvas] = useState(null as any)
+  const [canvas, setCanvas] = useState<CanvasType>()
 
-  const handleStrInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStrInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setStrInput(event.target.value)
-  };
+  }, [setStrInput]);
 
-  const send = () => {
+  const send = useCallback(() => {
     const input = strInput.split('\n');
     setCanvas(draw(input));
-  };
+  }, [strInput, setCanvas]);
 
   return (
     <div className='container'>
@@ -33,7 +32,7 @@ const App = () => {
       />
       <Button variant="secondary" onClick={send}>Send</Button>
       {
-        canvas ? <DrawingField canvas={canvas} /> : null
+        canvas && <DrawingField canvas={canvas} />
       }
     </div>
   );

@@ -1,24 +1,24 @@
 import React from 'react';
-import { IDrawingField, } from '../utils/types'
+import { CanvasType } from '../utils/types';
 import './DrawingField.css';
-import { getRandomInt } from '../utils/randomInt'
+import Counter from '../utils/Counter'
 
 interface DrawingFieldProps {
-    canvas?: []
+    canvas?: CanvasType
 }
 
-export const DrawingField = ({ canvas }: DrawingFieldProps) => {
-    return (
-        <div className='drawingField-container'>
-            {
-                canvas ? canvas.map((row: Array<string>) => {
-                    return <div className='row' key={getRandomInt(12435345)}>
-                        {row.map((col: string) => {
-                            return <span key={getRandomInt(678769)}>{col}</span>
-                        })}
-                    </div>
-                }) : null
-            }
-        </div>
-    )
-}
+export const DrawingField = ({ canvas }: DrawingFieldProps) => (
+    <div className='drawingField-container'>
+        {
+            canvas?.map((row: Array<string>) => (
+                <div className='row' key={Counter.getCount()}>
+                    {
+                        row.map((col: string) => (
+                            <span key={Counter.getCount()}>{col}</span>
+                        ))
+                    }
+                </div>
+            ))
+        }
+    </div>
+)
