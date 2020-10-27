@@ -1,13 +1,10 @@
 .drawingField-container{
-
     display: flex;
-   flex-direction: column;
+    flex-direction: column;
 }
 
 .row{
     display: inline-block;
-   
-   /*justify-content: space-between;*/
 }
 
 .drawingField-container span{

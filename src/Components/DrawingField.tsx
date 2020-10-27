@@ -1,6 +1,7 @@
 import React from 'react';
 import { IDrawingField, } from '../utils/types'
-import './DrawingField.css'
+import './DrawingField.css';
+import { getRandomInt } from '../utils/randomInt'
 
 interface DrawingFieldProps {
     drawingField?: IDrawingField,
@@ -13,13 +14,11 @@ export const DrawingField = ({ drawingField, canvas }: DrawingFieldProps) => {
         <div className='drawingField-container'>
             {
                 canvas.map((row: Array<string>) => {
-                   // debugger;
-                    return <div className='row'>
+                    return <div className='row' key={getRandomInt(12345)}>
                         {row.map((col: string) => {
-                            if(col === ' '){
-                                return <span>  </span>
-                            } else return <span>{col}</span>
-                        })}</div>
+                            return <span key={getRandomInt(6789)}>{col}</span>
+                        })}
+                    </div>
                 })
             }
         </div>

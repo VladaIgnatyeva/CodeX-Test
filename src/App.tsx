@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FormControl, Button } from 'react-bootstrap'
 import './App.css';
 import { DrawingField } from './Components/DrawingField';
-import { IDrawingField, ICanvas, ILine, IRectangle, IBucketFill } from './utils/types';
+import { ICanvas, ILine, IRectangle, IBucketFill } from './utils/types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -75,7 +75,7 @@ const App = () => {
     let canvasLocal = generateCanvas(drawingField);
     lines.map((line: ILine) => canvasLocal = drawLine(canvasLocal, line));
     rectangles.map((rectangle: IRectangle) => canvasLocal = drawRectangle(canvasLocal, rectangle));
-    console.log(canvasLocal);
+    
     setCanvas(canvasLocal);
   };
 
