@@ -4,22 +4,20 @@ import './DrawingField.css';
 import { getRandomInt } from '../utils/randomInt'
 
 interface DrawingFieldProps {
-    drawingField?: IDrawingField,
-    canvas?: any
+    canvas?: []
 }
 
-export const DrawingField = ({ drawingField, canvas }: DrawingFieldProps) => {
-    console.log('canvas ', canvas);
+export const DrawingField = ({ canvas }: DrawingFieldProps) => {
     return (
         <div className='drawingField-container'>
             {
-                canvas.map((row: Array<string>) => {
+                canvas ? canvas.map((row: Array<string>) => {
                     return <div className='row' key={getRandomInt(12435345)}>
                         {row.map((col: string) => {
                             return <span key={getRandomInt(678769)}>{col}</span>
                         })}
                     </div>
-                })
+                }) : null
             }
         </div>
     )
