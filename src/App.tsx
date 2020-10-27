@@ -1,16 +1,17 @@
 import React, { useState, useCallback, } from 'react';
 import { FormControl, Button } from 'react-bootstrap'
 import './App.css';
-import { DrawingField } from './Components/DrawingField';
+import { DrawingField } from './Components/DrawingField/DrawingField';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { CanvasType } from './utils/types';
-import { draw } from './draw'
+import { draw } from './draw';
+import { FileUploader } from './Components/FileUploader/FileUploader'
 
 
 const App = () => {
 
   const [strInput, setStrInput] = useState('');
-  const [canvas, setCanvas] = useState<CanvasType>()
+  const [canvas, setCanvas] = useState<CanvasType>();
 
   const handleStrInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setStrInput(event.target.value)
@@ -23,6 +24,10 @@ const App = () => {
 
   return (
     <div className='container'>
+      <div className='fileUploader-container'>
+        <FileUploader setStrInput={setStrInput}/>
+      </div>
+
       <FormControl
         as="textarea"
         aria-label="With textarea"
@@ -30,7 +35,10 @@ const App = () => {
         onChange={handleStrInputChange}
         rows={5}
       />
-      <Button variant="secondary" onClick={send}>Send</Button>
+      <div className='button-container'>
+        <Button variant="secondary" onClick={send}>Draw</Button>
+      </div>
+      
       {
         canvas && <DrawingField canvas={canvas} />
       }

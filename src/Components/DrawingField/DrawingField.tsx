@@ -1,7 +1,7 @@
 import React from 'react';
-import { CanvasType } from '../utils/types';
+import { CanvasType } from '../../utils/types';
 import './DrawingField.css';
-import Counter from '../utils/Counter'
+import Counter from '../../utils/Counter'
 
 interface DrawingFieldProps {
     canvas?: CanvasType
