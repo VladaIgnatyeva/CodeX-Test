@@ -14,9 +14,9 @@ export const DrawingField = ({ drawingField, canvas }: DrawingFieldProps) => {
         <div className='drawingField-container'>
             {
                 canvas.map((row: Array<string>) => {
-                    return <div className='row' key={getRandomInt(12345)}>
+                    return <div className='row' key={getRandomInt(12435345)}>
                         {row.map((col: string) => {
-                            return <span key={getRandomInt(6789)}>{col}</span>
+                            return <span key={getRandomInt(678769)}>{col}</span>
                         })}
                     </div>
                 })

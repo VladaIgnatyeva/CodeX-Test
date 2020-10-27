@@ -75,7 +75,8 @@ const App = () => {
     let canvasLocal = generateCanvas(drawingField);
     lines.map((line: ILine) => canvasLocal = drawLine(canvasLocal, line));
     rectangles.map((rectangle: IRectangle) => canvasLocal = drawRectangle(canvasLocal, rectangle));
-    
+    bucketfilles.map((bucketFill: IBucketFill) => canvasLocal = fill(canvasLocal, bucketFill.x, bucketFill.y, bucketFill.color))
+
     setCanvas(canvasLocal);
   };
 
@@ -144,6 +145,19 @@ const App = () => {
     canvasLocal = drawLine(canvasLocal, lineLeft);
     canvasLocal = drawLine(canvasLocal, lineRight);
 
+    return canvasLocal;
+  }
+
+  const fill = (canvas: [], y: number, x: number, color: string): [] => {
+    let canvasLocal = canvas as any;
+    const colorLocal = canvasLocal[x][y];
+    if (colorLocal !== color && colorLocal !== 'x' && colorLocal !== '-' && colorLocal !== '|') {
+      canvasLocal[x][y] = color;
+      fill(canvasLocal, y + 1, x, color);
+      fill(canvasLocal, y, x + 1, color);
+      fill(canvasLocal, y - 1, x, color);
+      fill(canvasLocal, y, x - 1, color);
+    }
     return canvasLocal;
   }
 
