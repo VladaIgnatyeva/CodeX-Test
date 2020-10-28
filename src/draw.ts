@@ -21,19 +21,25 @@ export const generateCanvas = (canvas: ICanvas): CanvasType => {
 
 export const drawLine = (canvas: CanvasType, line: ILine): CanvasType => {
     const canvasLocal = canvas;
-    if (line.x1 === line.x2) {
-        for (let i = line.y1; i < line.y2 + 1; i++) {
-            canvasLocal[i][line.x1] = 'x';
-        }
-    } else if (line.y1 === line.y2) {
-        for (let i = line.x1; i < line.x2 + 1; i++) {
-            canvasLocal[line.y1][i] = 'x';
+   if (+line.x1 <= +line.x2 && +line.y1 <= +line.y2
+        && +line.x1 > 0 && +line.y1 > 0 && +line.x2 > 0 && +line.y2 > 0
+       ) { //  && +line.x2 <= canvas.length && +line.y2 <= canvas[0].length
+        if (line.x1 === line.x2) {
+            for (let i = line.y1; i < line.y2 + 1; i++) {
+                canvasLocal[i][line.x1] = 'x';
+            }
+        } else if (line.y1 === line.y2) {
+            for (let i = line.x1; i < line.x2 + 1; i++) {
+                canvasLocal[line.y1][i] = 'x';
+            }
         }
     }
+
     return canvasLocal;
 }
 
 export const drawRectangle = (canvas: CanvasType, rectangle: IRectangle): CanvasType => {
+
     const lineTop = {
         x1: rectangle.x1,
         y1: rectangle.y1,
@@ -101,9 +107,7 @@ export const draw = (input: string[]): CanvasType => {
                 }
                 break;
             case 'L':
-                if (command[1] && command[2] && command[3] && command[4] 
-                    && +command[1] > +command[3] && +command[2] > +command[4]
-                    ) {
+                if (command[1] && command[2] && command[3] && command[4]) {
                     const line = {
                         x1: +command[1],
                         y1: +command[2],
