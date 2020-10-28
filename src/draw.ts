@@ -1,22 +1,25 @@
 import { ICanvas, ILine, IRectangle, IBucketFill, CanvasType } from './utils/types';
 
-const generateCanvas = (canvas: ICanvas): CanvasType => {
+export const generateCanvas = (canvas: ICanvas): CanvasType => {
     const place = [] as any;
-    for (var i = 0; i < canvas.h + 2; i++) {
-        place[i] = [];
-        for (var j = 0; j < canvas.w + 2; j++) {
-            if (i === 0 || i === canvas.h + 1) {
-                place[i][j] = '-';
-            } else if (j === 0 || j === canvas.w + 1) {
-                place[i][j] = '|';
+    if (canvas.h && canvas.w) {
+        for (var i = 0; i < canvas.h + 2; i++) {
+            place[i] = [];
+            for (var j = 0; j < canvas.w + 2; j++) {
+                if (i === 0 || i === canvas.h + 1) {
+                    place[i][j] = '-';
+                } else if (j === 0 || j === canvas.w + 1) {
+                    place[i][j] = '|';
+                }
+                else place[i][j] = ' ';
             }
-            else place[i][j] = ' ';
         }
     }
+
     return place;
 }
 
-const drawLine = (canvas: CanvasType, line: ILine): CanvasType => {
+export const drawLine = (canvas: CanvasType, line: ILine): CanvasType => {
     const canvasLocal = canvas;
     if (line.x1 === line.x2) {
         for (let i = line.y1; i < line.y2 + 1; i++) {
@@ -30,7 +33,7 @@ const drawLine = (canvas: CanvasType, line: ILine): CanvasType => {
     return canvasLocal;
 }
 
-const drawRectangle = (canvas: CanvasType, rectangle: IRectangle): CanvasType => {
+export const drawRectangle = (canvas: CanvasType, rectangle: IRectangle): CanvasType => {
     const lineTop = {
         x1: rectangle.x1,
         y1: rectangle.y1,
@@ -68,7 +71,7 @@ const drawRectangle = (canvas: CanvasType, rectangle: IRectangle): CanvasType =>
     return canvasLocal;
 }
 
-const fill = (canvas: CanvasType, y: number, x: number, color: string): CanvasType => {
+export const fill = (canvas: CanvasType, y: number, x: number, color: string): CanvasType => {
     let canvasLocal = canvas;
     const colorLocal = canvasLocal[x][y];
     if (colorLocal !== color && colorLocal !== 'x' && colorLocal !== '-' && colorLocal !== '|') {
