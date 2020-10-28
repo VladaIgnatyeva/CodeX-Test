@@ -1,7 +1,29 @@
 import { drawRectangle, generateCanvas, } from '../src/draw';
 
 describe('draw rectangle', () => {
-  it('correct drawing of two intersecting rectangles', () => {
+
+    it('correct line props', () => {
+        const canvas = generateCanvas({ w: 10, h: 15 });
+        expect(() => {
+            drawRectangle(canvas, {
+                x1: -3,
+                y1: -1,
+                x2: 3,
+                y2: 5
+            })
+        }).toThrow('Parameters for drawing a rectangle cannot be negative.');
+
+        expect(() => {
+            drawRectangle(canvas, {
+                x1: 6,
+                y1: 2,
+                x2: 17,
+                y2: 5
+            })
+        }).toThrow('The line cannot go beyond the boundaries of the canvas.');
+    })
+
+    it('correct drawing of two intersecting rectangles', () => {
         let canvas = generateCanvas({ w: 8, h: 8 });
         const result = [
             ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],

@@ -36,6 +36,7 @@ const result = [
     ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
 ]
 
+
 describe('fill', () => {
     it('correct fill canvas', () => {
         let canvasLocal = fill(canvas, 13, 9, 'w');

@@ -21,15 +21,15 @@ export const generateCanvas = ({ w, h }: ICanvas): CanvasType => {
 }
 
 const validateLineParams = (canvasWidth: number, canvasHeight: number, line: ILine) => {
-    if(!line.x1 || !line.y1 || !line.x2 || !line.y2){
+    if (!line.x1 || !line.y1 || !line.x2 || !line.y2) {
         throw 'Not all parameters are specified.'
     }
 
     if (line.x1 < 0 || line.y1 < 0 || line.x2 < 0 || line.y2 < 0) {
         throw 'Parameters for drawing a line cannot be negative.'
     }
-
-    if (line.x2 > canvasWidth && line.y2 > canvasHeight) {
+    //debugger;
+    if (line.x2 > canvasHeight - 2 || line.y2 > canvasWidth - 2) {
         throw 'The line cannot go beyond the boundaries of the canvas.'
     }
 
@@ -53,13 +53,29 @@ export const drawLine = (canvas: CanvasType, line: ILine): CanvasType => {
         }
     } else {
         const direction = line.x1 > line.x2 ? { start: line.x2, end: line.x1 } : { start: line.x1, end: line.x2 };
-        canvasLocal[line.y1].fill('x', direction.start, direction.end);
+        canvasLocal[line.y1].fill('x', direction.start, direction.end + 1);
     }
 
     return canvasLocal;
 }
 
+const validateRectangleProps = (canvasWidth: number, canvasHeight: number, { x1, y1, x2, y2 }: IRectangle) => {
+    if (!x1 || !y1 || !x2 || !y2) {
+        throw 'Not all parameters are specified.'
+    }
+
+    if (x1 < 0 || y1 < 0 || x2 < 0 || y2 < 0) {
+        throw 'Parameters for drawing a rectangle cannot be negative.'
+    }
+
+    if (x2 > canvasWidth && y2 > canvasHeight) {
+        throw 'The line cannot go beyond the boundaries of the canvas.'
+    }
+}
+
 export const drawRectangle = (canvas: CanvasType, rectangle: IRectangle): CanvasType => {
+
+    validateRectangleProps(canvas.length, canvas[0].length, rectangle);
 
     const lineTop = {
         x1: rectangle.x1,
@@ -81,7 +97,6 @@ export const drawRectangle = (canvas: CanvasType, rectangle: IRectangle): Canvas
         x2: rectangle.x1,
         y2: rectangle.y2,
     } as ILine;
-
 
     const lineRight = {
         x1: rectangle.x2,
@@ -169,7 +184,7 @@ export const draw = (input: string[]): CanvasType => {
     try {
         if (drawingField.h && drawingField.w) {
             let canvasLocal = generateCanvas(drawingField);
-            console.log(canvasLocal)
+            // console.log(canvasLocal)
             lines.map((line: ILine) => canvasLocal = drawLine(canvasLocal, line));
             rectangles.map((rectangle: IRectangle) => canvasLocal = drawRectangle(canvasLocal, rectangle));
             bucketfilles.map((bucketFill: IBucketFill) => canvasLocal = fill(canvasLocal, bucketFill.x, bucketFill.y, bucketFill.color))
