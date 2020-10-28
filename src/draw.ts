@@ -71,15 +71,15 @@ export const drawRectangle = (canvas: CanvasType, rectangle: IRectangle): Canvas
     return canvasLocal;
 }
 
-export const fill = (canvas: CanvasType, y: number, x: number, color: string): CanvasType => {
+export const fill = (canvas: CanvasType, x: number, y: number, color: string): CanvasType => {
     let canvasLocal = canvas;
-    const colorLocal = canvasLocal[x][y];
+    const colorLocal = canvasLocal[y][x];
     if (colorLocal !== color && colorLocal !== 'x' && colorLocal !== '-' && colorLocal !== '|') {
-        canvasLocal[x][y] = color;
-        fill(canvasLocal, y + 1, x, color);
-        fill(canvasLocal, y, x + 1, color);
-        fill(canvasLocal, y - 1, x, color);
-        fill(canvasLocal, y, x - 1, color);
+        canvasLocal[y][x] = color;
+        fill(canvasLocal, x, y + 1, color);
+        fill(canvasLocal, x + 1, y, color);
+        fill(canvasLocal, x, y - 1, color);
+        fill(canvasLocal, x - 1, y, color);
     }
     return canvasLocal;
 }
