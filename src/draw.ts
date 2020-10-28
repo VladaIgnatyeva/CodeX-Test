@@ -101,7 +101,9 @@ export const draw = (input: string[]): CanvasType => {
                 }
                 break;
             case 'L':
-                if (command[1] && command[2] && command[3] && command[4]) {
+                if (command[1] && command[2] && command[3] && command[4] 
+                    && +command[1] > +command[3] && +command[2] > +command[4]
+                    ) {
                     const line = {
                         x1: +command[1],
                         y1: +command[2],
@@ -144,7 +146,7 @@ export const draw = (input: string[]): CanvasType => {
         lines.map((line: ILine) => canvasLocal = drawLine(canvasLocal, line));
         rectangles.map((rectangle: IRectangle) => canvasLocal = drawRectangle(canvasLocal, rectangle));
         bucketfilles.map((bucketFill: IBucketFill) => canvasLocal = fill(canvasLocal, bucketFill.x, bucketFill.y, bucketFill.color))
-
+        console.log(canvasLocal)
         return canvasLocal;
     }
 
