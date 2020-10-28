@@ -1,7 +1,7 @@
 import { drawRectangle, generateCanvas, } from '../src/draw';
 
 describe('draw rectangle', () => {
-    it('correct drawing of two intersecting rectangles', () => {
+  it('correct drawing of two intersecting rectangles', () => {
         let canvas = generateCanvas({ w: 8, h: 8 });
         const result = [
             ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],

@@ -1,38 +1,59 @@
 import { ICanvas, ILine, IRectangle, IBucketFill, CanvasType } from './utils/types';
 
-export const generateCanvas = (canvas: ICanvas): CanvasType => {
-    const place = [] as any;
-    if (canvas.h && canvas.w) {
-        for (var i = 0; i < canvas.h + 2; i++) {
-            place[i] = [];
-            for (var j = 0; j < canvas.w + 2; j++) {
-                if (i === 0 || i === canvas.h + 1) {
-                    place[i][j] = '-';
-                } else if (j === 0 || j === canvas.w + 1) {
-                    place[i][j] = '|';
+export const generateCanvas = ({ w, h }: ICanvas): CanvasType => {
+    if (h && w) {
+        if (h > 0 && w > 0) {
+            const place = Array.from(Array(h), () => Array.from(Array(w + 2).keys(), (key) => {
+                if (key === 0 || key === w + 1) {
+                    return '|';
                 }
-                else place[i][j] = ' ';
-            }
+
+                return ' ';
+            }));
+
+            return [Array(w + 2).fill('-'), ...place, Array(w + 2).fill('-')];
+        } else {
+            throw 'Canvas width and height cannot be negative.'
         }
+    } else {
+        throw 'Width or height of canvas is not specified.'
+    }
+}
+
+const validateLineParams = (canvasWidth: number, canvasHeight: number, line: ILine) => {
+    if(!line.x1 || !line.y1 || !line.x2 || !line.y2){
+        throw 'Not all parameters are specified.'
     }
 
-    return place;
+    if (line.x1 < 0 || line.y1 < 0 || line.x2 < 0 || line.y2 < 0) {
+        throw 'Parameters for drawing a line cannot be negative.'
+    }
+
+    if (line.x2 > canvasWidth && line.y2 > canvasHeight) {
+        throw 'The line cannot go beyond the boundaries of the canvas.'
+    }
+
+    const isVerticalLine = line.x1 === line.x2 ? true : false;
+    const isHorizontalLine = line.y1 === line.y2 ? true : false;
+
+    if (!isVerticalLine && !isHorizontalLine) {
+        throw 'Only horizontal and vertical lines can be drawn.'
+    }
 }
 
 export const drawLine = (canvas: CanvasType, line: ILine): CanvasType => {
     const canvasLocal = canvas;
-   if (+line.x1 <= +line.x2 && +line.y1 <= +line.y2
-        && +line.x1 > 0 && +line.y1 > 0 && +line.x2 > 0 && +line.y2 > 0
-       ) { //  && +line.x2 <= canvas.length && +line.y2 <= canvas[0].length
-        if (line.x1 === line.x2) {
-            for (let i = line.y1; i < line.y2 + 1; i++) {
-                canvasLocal[i][line.x1] = 'x';
-            }
-        } else if (line.y1 === line.y2) {
-            for (let i = line.x1; i < line.x2 + 1; i++) {
-                canvasLocal[line.y1][i] = 'x';
-            }
+
+    validateLineParams(canvas.length, canvas[0].length, line);
+
+    if (line.x1 === line.x2) {
+        const direction = line.y1 > line.y2 ? { start: line.y2, end: line.y1 } : { start: line.y1, end: line.y2 };
+        for (let i = direction.start; i < direction.end + 1; i++) {
+            canvasLocal[i][line.x1] = 'x';
         }
+    } else {
+        const direction = line.x1 > line.x2 ? { start: line.x2, end: line.x1 } : { start: line.x1, end: line.x2 };
+        canvasLocal[line.y1].fill('x', direction.start, direction.end);
     }
 
     return canvasLocal;
@@ -145,14 +166,19 @@ export const draw = (input: string[]): CanvasType => {
         }
     })
 
-    if (drawingField.w) {
-        let canvasLocal = generateCanvas(drawingField);
-        lines.map((line: ILine) => canvasLocal = drawLine(canvasLocal, line));
-        rectangles.map((rectangle: IRectangle) => canvasLocal = drawRectangle(canvasLocal, rectangle));
-        bucketfilles.map((bucketFill: IBucketFill) => canvasLocal = fill(canvasLocal, bucketFill.x, bucketFill.y, bucketFill.color))
-        console.log(canvasLocal)
-        return canvasLocal;
+    try {
+        if (drawingField.h && drawingField.w) {
+            let canvasLocal = generateCanvas(drawingField);
+            console.log(canvasLocal)
+            lines.map((line: ILine) => canvasLocal = drawLine(canvasLocal, line));
+            rectangles.map((rectangle: IRectangle) => canvasLocal = drawRectangle(canvasLocal, rectangle));
+            bucketfilles.map((bucketFill: IBucketFill) => canvasLocal = fill(canvasLocal, bucketFill.x, bucketFill.y, bucketFill.color))
+            return canvasLocal;
+        } else throw 'Canvas not created.'
+    } catch (error) {
+        console.log('Error: ' + error)
     }
+
 
     return [[]];
 }
